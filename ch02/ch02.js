@@ -1,6 +1,6 @@
 function setup(){
 	//initialize
-	createCanvas(1000, 1000)	
+	createCanvas(800, 800)	
 }
 //1080p 2K
 //2K * 4p ... 4K
