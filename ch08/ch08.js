@@ -1,32 +1,35 @@
-var hadamard = 1/Math.sqrt(2)*[[1, 1], [1, -1]];
 var num = 10;
+var count = 0;
+var interbal = 1000;
 function setup(){
 	createCanvas(500, 500);
 }
 
 function draw(){
-	var shapex = []
-	var shapey = []
-	var fib = []
+	var r = [];
+	var g = [];
+	var b = [];
+	var shapex = [];
+	var shapey = [];
 	background(0, 0, 0, 20);
 	for(var i=0;i < num; i++){
-		shapex.push(timestamp(i))
-		shapey.push(timestamp(i))
+		r.push((i*100)%255);
+		g.push((i*200)%255);
+		b.push((i*300)%255);
+		shapex.push(stamp(i, count));
+		shapey.push(stamp(i, count));
 	}
-	
+	noFill()
 	for(var j=0;j < num; j++){
-		for(var k=num; k >0; k--){
-			stroke(255, 255, 255, 20);
-			noFill()
-			// bezier(shapex[j], shapey[j], shapex[k], shapey[j], shapex[k], shapey[k], shapex[j], shapey[k])
-			bezier(shapex[j], shapey[k], width/2, height/2, shapex[k], shapey[j], width/2, height/2);
+		stroke(r[j], g[j], b[j], 20);
+		for(var k=0; k <num; k++){
+			bezier(0, height, shapex[j], shapey[k], shapex[k], shapey[j],  width, 0);
+			bezier(0, 0, shapex[j], shapey[k], shapex[j], shapey[k], height, height);
 		}
 	}
+	count++;
 }
 
-function timestamp(n){
-	// n = n + Date.now()
-	n = (n + window.performance.now()) % 500
-	console.log(n)
-	return n
+function stamp(n, count){
+	return (n * count) % interbal
 }
