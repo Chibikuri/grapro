@@ -1,7 +1,10 @@
 // This is simulation for density matrix.
+var resolution = 7;
+var init_table_i = Array(10).fill().map(v => Math.floor(Math.random() * (Math.pow(2, resolution)+1) ));
+var init_table_j = Array(10).fill().map(v => Math.floor(Math.random() * (Math.pow(2, resolution)+1) ));
 var lifegame = function(p){
   var state = []
-  var resolution = 6;
+  
   var width = 512;
   var height = 512;
   p.setup = function(){
@@ -29,7 +32,11 @@ var lifegame = function(p){
         var nearsum = state[sth-1][stw-1] + state[sth-1][stw] + state[sth-1][stw+1] + state[sth][stw-1]+ state[sth][stw+1] + state[sth+1][stw-1] + state[sth+1][stw] + state[sth+1][stw+1]
         // console.log(nearsum)
         switch(nearsum){
-          case 0 || 1:
+          case 0:
+            state[sth][stw] = 0;
+            break;
+          
+          case 1:
             state[sth][stw] = 0;
             break;
 
@@ -42,17 +49,20 @@ var lifegame = function(p){
           case 3:
             state[sth][stw] = 1;
             break;
-          
-          case 5||6:
-            var num = p.int(p.random(-2, 2))
-            console.log(num)
 
-            state[sth+num][stw+num] = 0;
-            break;
+          case 5:
+              var num = p.int(p.random(-2, 2))
+              // var num2 = p.int(p.random(-2, 2))
+              // console.log(num)
+  
+              state[sth+num][stw+num] = 0;
+              // state[sth+num2][stw+num2] =0;
+              break;
 
           default:
             state[sth][stw] = 0;
             break;
+
         }
         var col = p.map(state[sth][stw], 0, 1, 0, 255)
         // var col = map(nearsum, 0, 4, 0, 255)
@@ -65,14 +75,7 @@ var lifegame = function(p){
   }
 
   function initial(i, j){
-    console.log(i)
-  //   if(i < p.random(Math.pow(2, resolution))/2&& j<p.random(Math.pow(2, resolution))/2){
-  //     return true;
-  //   }else{
-  //     return false;
-  //   }
-  // }
-    if(i>20&&i<30&&j>30&&j<40){
+    if(i%50==0){
       return true;
     }else{
       return false;
@@ -81,7 +84,7 @@ var lifegame = function(p){
 }
 var explain = function(p){
   p.setup = function(){
-    var canv = p.createCanvas(512, 200);
+    var canv = p.createCanvas(680, 200);
     p.background(20);
   }
   p.draw = function(){
@@ -104,6 +107,11 @@ var explain = function(p){
         p.rect(k, h, 40, 40);
       }
     }
+    for(var k=520; k<=600;  k+=40){
+      for(var h=40; h<=120; h+=40){
+        p.rect(k, h, 40, 40);
+      }
+    }
     // blue
     p.fill(32, 10, 255);
     p.rect(40, 40, 40, 40);
@@ -113,6 +121,11 @@ var explain = function(p){
     p.rect(360, 40, 40, 40);
     p.rect(440, 40, 40, 40);
     p.rect(400, 120, 40, 40);
+    p.rect(520, 40, 40, 40);
+    p.rect(560, 40, 40, 40);
+    p.rect(600, 40, 40, 40);
+    p.rect(520, 80, 40, 40);
+    p.rect(560, 120, 40, 40);
 
     // yellow
     p.fill(220, 190, 0);
@@ -126,6 +139,7 @@ var explain = function(p){
     p.rect(80, 80, 40, 40);
     p.rect(240, 80, 40, 40);
     p.rect(400, 80, 40, 40);
+    p.rect(560, 80, 40, 40);
 
     // text
     p.fill(255);
@@ -133,5 +147,6 @@ var explain = function(p){
     p.text('Survive', 45, 190);
     p.text('Die', 240, 190);
     p.text('Populate', 360, 190);
+    p.text('Kill', 540, 190);
   }
 }
